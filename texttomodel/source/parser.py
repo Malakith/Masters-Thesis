@@ -38,5 +38,4 @@ class SimpleHTMLParser(AbstractHTMLParser):
                 if not s.endswith("."):
                     s = s + "."
                 result.append(s)
-
-        return soup.title.text, " ".join(result)
+        return soup.title.text, result

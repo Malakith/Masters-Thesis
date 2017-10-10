@@ -4,7 +4,7 @@ import requests
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from multiprocessing import Pool
-from cache.cache import NoneCache
+from ..cache.cache import NoneCache
 
 
 class AbstractWebScraper(object):

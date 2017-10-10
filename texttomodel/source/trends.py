@@ -4,11 +4,12 @@
 
 from pytrends.request import TrendReq
 
-from cache.cache import NoneCache
+from ..cache.cache import NoneCache
 
 from multiprocessing import Pool
 
 pytrend = TrendReq(hl='en-US', tz=360)
+
 
 class KeyList:
     def __init__(self, limit):

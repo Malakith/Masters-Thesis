@@ -4,7 +4,7 @@ Might be changed to use the api, when project has gotten further.
 """
 
 from selenium import webdriver
-from cache.cache import NoneCache
+from ..cache.cache import NoneCache
 
 
 class GoogleSearch:
