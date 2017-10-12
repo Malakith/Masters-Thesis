@@ -55,14 +55,14 @@ class KeyList:
         pytrend.build_payload([" ".join(keys)], geo="US")
         result = pytrend.related_queries()
         n = len(keys)
+        res = []
         for r in result:
             top = result[r]["top"]
             if top is not None:
-                res = []
                 for i in range(len(top['query'])):
                     res.append([n, top['query'][i], top['value'][i]])
-                self.cache.save(keys, res)
-                return res
+        self.cache.save(keys, res)
+        return res
 
 
 

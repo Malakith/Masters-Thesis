@@ -1,20 +1,29 @@
 import spacy
 import re
 
-
 def custom_pipeline(nlp):
-    return (merge_html_tags, )
+    return (fix_html_tags, nlp.tagger)
 
 
 def insert_spaces_around_tags(html):
-    return re.sub(r'(.)(<.*?>)(.)', r' \1 ', html).strip()
+    def f(match):
+        print(match)
+        result = match.group(2)
+        if match.group(1) != "":
+            result = match.group(1) + " " + result
+        if match.group(3) != "":
+            result += " " + match.group(3)
+        return result
+    return re.sub(r'(\S?)(<.*?>)(\S?)', f, html).strip()
 
 
-def merge_html_tags(doc):
+def fix_html_tags(doc):
     print(doc.text)
     indexes = [m.span() for m in re.finditer(r'(?<!\\)(<.*?>)', doc.text)]
     for start, end in indexes:
-        doc.merge(start, end)
+        token = doc.merge(start, end)
+
+
 
 nlp = spacy.load('en', create_pipeline=custom_pipeline)
 

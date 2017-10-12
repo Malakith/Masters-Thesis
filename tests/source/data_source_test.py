@@ -1,7 +1,8 @@
 import unittest
-from texttomodel.source.parser import SimpleHTMLParser
-from texttomodel.source.scrape import PureBSScraper
-from texttomodel.source.trends import KeyList
+from texttomodel.websource.parser import SimpleHTMLParser
+from texttomodel.websource.parser import StyledHTMLParser
+from texttomodel.websource.scrape import PureBSScraper
+from texttomodel.websource.trends import KeyList
 from bs4 import BeautifulSoup
 
 import spacy
@@ -59,10 +60,41 @@ class SimpleHTMLParserTest(unittest.TestCase):
     def test_parse1(self):
         scr = PureBSScraper()
         soup = scr.get_soup("https://en.wikipedia.org/wiki/Algebra")
-        parser = SimpleHTMLParser()
-        title, texts = parser.parse_html(soup)
-        print(title, texts)
-        self.assertTrue(True)
+        parser = StyledHTMLParser()
+        text, style = parser.parse_html(soup)
+        print(text)
+        print(style)
+        nlp = spacy.load('en')
+
+        doc = nlp(text)
+
+        for word in doc[0:30]:
+            print(word.text, word.lemma, word.lemma_, word.tag, word.tag_, word.pos, word.pos_)
+        i = 0
+        for sent in doc.sents:
+            print(sent)
+            if i > 30:
+                break
+            i += 1
+
+
+    def test_parse2(self):
+        soup = BeautifulSoup("<em>This text is emphasized</em><i>This text is italic<small>Small</small></i><h2>HTML"
+                             " <mark>Marked</mark> Formatting</h2>", "lxml")
+        parser = StyledHTMLParser()
+        text, style = parser.parse_html(soup)
+        print(text)
+        print(style)
+
+        nlp = spacy.load('en')
+
+        doc = nlp(text)
+
+        for word in doc:
+            print(word.text, word.lemma, word.lemma_, word.tag, word.tag_, word.pos, word.pos_)
+
+        for sent in doc.sents:
+            print(sent)
 
 
 
