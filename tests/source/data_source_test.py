@@ -60,6 +60,7 @@ class SimpleHTMLParserTest(unittest.TestCase):
     def test_parse1(self):
         scr = PureBSScraper()
         soup = scr.get_soup("https://en.wikipedia.org/wiki/Algebra")
+        print(len(soup.text))
         parser = StyledHTMLParser()
         text, style = parser.parse_html(soup)
         print(text)

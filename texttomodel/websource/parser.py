@@ -51,12 +51,13 @@ class StyledHTMLParser(AbstractHTMLParser):
     """
 
     STYLE_TAGS = ['b', 'strong', 'i', 'em', 'mark', 'small',
-                  'h1', 'h2', 'h3', 'h4', 'h5', 'h6']
+                  'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'title']
 
-    INVIS_TAG = ['style', 'script', 'head', 'title', 'meta']
+    INVIS_TAG = ['style', 'script']
 
     def parse_html(self, soup):
         text, style = self.get_text_and_style(soup)
+        print(style)
         tree = IntervalTree(Interval(begin, end, data) for begin, end, data in style)
         return text.strip(), tree
 
@@ -67,10 +68,10 @@ class StyledHTMLParser(AbstractHTMLParser):
                 or isinstance(tag, bs.Doctype) \
                 or isinstance(tag, bs.CData) \
                 or tag.name in self.INVIS_TAG:
+
             return "", []
         elif isinstance(tag, bs.element.NavigableString):
-            result = re.sub(r'<!--.*?-->', "", tag.string.strip(), flags=re.S)
-            return result, []
+            return tag.string.strip(), []
         else:
             ts = [self.get_text_and_style(c) for c in tag.children]
             offset = 0
