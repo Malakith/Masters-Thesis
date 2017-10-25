@@ -1,2 +1,2 @@
 # Masters-Thesis
-Code and other things related to my master's thesis.
+The python code for my masters thesis. This is outdated, as I had to shift to Java.
